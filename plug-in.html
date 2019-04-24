@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Plug-in</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"/>
+    <link rel="stylesheet" href="styles/style.css"/>
+    <script src="scripts/loadImages.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script defer src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  </head>
+  <body onload="loadImages()">
+    <nav class="flex flex-row justify-end">
+      <ul id="mainNav" class="flex flex-row-ns flex-column w-50-l w-100 justify-between pa4-l pa3 list">
+        <li>
+          <a href="javascript-concepts.html">JavaScripting Concepts</a>
+        </li>
+        <li>
+          <a href="jquery-concepts.html">jQuery Concepts</a>
+        </li>
+        <li>
+          <a href="plug-in.html">Plug-in</a>
+        </li>
+      </ul>
+    </nav>
+    <main class="pa5 plugin">
+      <h1>Drag and drop the item you like the most</h1>
+      <p>
+      This is some of my visual work made for courses in BCIT New Media Design and Development program. Feel free to explore the images by clicking on them and don't forget to drag and drop the one you like the most to the Drop area.
+      </p>
+      <section class="page-grid">
+        <div class="pictures w-100 flex flex-column flex-wrap" id="pictures">
+        </div>
+        <div id="droppable" class="ui-widget-header w-100 h-100 flex items-center justify-center">
+          <h2 id="drop_here" class="ttu f1 fixed tc" style="right: 0; top: 60vh;width:33%;">Drop here</h2>
+        </div>
+      </section>
+    </main>
+    <footer class="flex flex-row justify-end pa5">
+      <span>&copy; 2019 Anastasiia Makarochkina MDIA 2294 Final Assignment</span>
+    </footer>
+    <div id="hidden-content" class="dn"><h3>Thank you for the feedback</h3></div>
+    <script>
+      $( function() {
+        $( "#booklet" ).draggable();
+        $( "#newsletter" ).draggable();
+        $( "#Bare_Bone" ).draggable();
+        $( "#loopstation" ).draggable();
+        $( "#boring-gif").draggable();
+        $( "#3Drendered").draggable();
+        $( "#blue").draggable();
+        $( "#poster").draggable();
+        $( "#how_to").draggable();
+        $( "#dogzilla").draggable();
+        $( "#decode").draggable();
+        $( "#vector_image").draggable();
+        $( "#personal_icon").draggable();
+        $( "#vim_logos").draggable();
+        $( "#10xbabel_magazine").draggable();
+        $( "#10xbabel_banners").draggable();
+
+        $( "#droppable" ).droppable({
+          drop: function( event, ui ) {
+            $("#drop_here").css("display", "none");
+
+            const src="url(" + ui.draggable.attr("href") + ") 100% 100%";
+
+            $(this).css("background", src);
+            $(this).addClass( "ui-state-highlight" );
+
+            const data=ui.draggable.attr("id");
+            $("#"+data).css("display", "none");
+
+            $.get("https://api.telegram.org/botBOT_TOKEN_HERE/sendMessage?text="+data+"&chat_id=CHAT_ID_HERE", function() {
+              $.fancybox.open({
+                src  : '#hidden-content',
+                type : 'inline',
+                opts : {
+                  afterShow : function( instance, current ) {
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                  }
+                }
+              });
+            });
+          }
+        } );
+      });
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>JavaScripting Concepts</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"/>
+    <link rel="stylesheet" href="styles/style.css"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+      $(document).on('click', 'a[href^="#"]', function(e) {
+        // target element id
+        var id = $(this).attr('href');
+
+        // target element
+        var $id = $(id);
+        if ($id.length === 0) {
+          return;
+        }
+
+        // prevent standard hash navigation (avoid blinking in IE)
+        e.preventDefault();
+
+        // top position relative to the document
+        var pos = $id.offset().top;
+
+        // animated top scrolling
+        $('body, html').animate({scrollTop: pos});
+      });
+  </script>
+</head>
+<body>
+	<nav class="flex flex-row justify-end">
+		<ul id="mainNav" class="flex flex-row-ns flex-column w-50-l w-100 justify-between pa4-l pa3 list">
+			<li>
+				<a href="javascript-concepts.html">JavaScripting Concepts</a>
+			</li>
+			<li>
+				<a href="jquery-concepts.html">jQuery Concepts</a>
+			</li>
+			<li>
+				<a href="plug-in.html">Plug-in</a>
+			</li>
+		</ul>
+	</nav>
+    <aside class="fixed pa5">
+		<h1>JavaScripting concepts</h1>
+		<ul id="auxNav" class='list'>
+			<li>
+				<a href="#functions">Functions</a>
+			</li>
+			<li>
+				<a href="#arrays">Arrays & Collections</a>
+			</li>
+			<li>
+				<a href="#dom">Document Object Model</a>
+			</li>
+      <li>
+        <a href="#mainNav">back to top &uarr;</a>
+      </li>
+		</ul>
+    </aside>
+	<main class="pa5">
+		<section id="functions" class="pv5">
+			<h2>Functions</h2>
+      <h3>What is a function?</h3>
+      <blockquote>
+        <p><em>A function is a JavaScript procedure—a set of statements that performs a task or calculates a value.</em></p>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions">MDN web docs</a>
+        </blockquote>
+        <p>
+          When you repeat certain operations over and over again, you may consider creating a <span class="b">function</span>. Functions abstract away the repeating algorithm and make code easier to understand. Creating a function is a <span class="b">function definition / function statement / function declaration</span>. To decrare a function, you will need:
+        </p>
+          <ul>
+            <li>
+             the <span class="b">function</span> keyword;
+            </li>
+            <li>
+              name of the function;
+            </li>
+            <li>
+              parameters (if any)
+            </li>
+            <li>
+              code block to execute
+            </li>
+          </ul>
+          <pre><code>function greetPerson(name) {
+  return "hi, " + name;
+}</code></pre>
+      <p>
+        Another way to declare the same function would be to assign a function to a variable. In this case the name of the function after the <span class="b">function</span> keyword can be omitted.
+      </p>
+          <pre><code>const greetPerson = function(name) {
+  return "hi, " + name;
+}</code></pre>
+      <p>
+        In both cases to use, or <span class="b">call / invoke</span> the function afterwards you would use the following syntax:
+      </p>
+          <pre><code>greetPerson('Fyodor');</code></pre>
+     <p>
+     In case you need to call the function immediately and only once, you may use IIFE - Immediately Invocable Function Expresion. Such function will not have a name and will use a special syntax to execute:
+     </p>
+          <pre><code>(function() {
+return "hi friend";
+})();</code></pre>
+      <h3>What are parameters?</h3>
+      <p>
+      In case the function changes some data, the values passed to the function are called <span class="b">parameters</span> or <span class="b">arguments</span>.
+      In the previous example the "name" was a parameter for the "greetPerson" function. In case we would need more than one parameter, we would add others by separating with a comma:
+      </p>
+          <pre><code>function greetPerson(name, surname) {
+  return "hi, " + name + surname;
+}
+greetPerson("Fyodor", "Doe");
+</code></pre>
+  <p>
+    Parameter names cannot be repeated, they should be unique. The values "passed by a parameter" to a function - e.g. "Fyodor" and "Doe" from our example - have local scope. Local scope means that you will not be able to access these values after the function is executed.
+  </p>
+  <p>In case you don't know or specify the amount of parameters that can be possibly sent to a function, you can use the <span class="b">arguments</span> object. You can get a paramter passed to the function by using <code>arguments[i]</code>, where i is the index of the the parameter among the arguments. You can also get the length of the arguments object, but still remember that is is not an Array and you cannot use Array methods on it.
+  </p>
+
+      <h3>How can a function return a value?</h3>
+      <p>JavaScript functions return a single value or an expression that can be resolved to a single value. To return a value with a function you use the <span class="b">return</span> keyword and a value or expression followed by a semicolon:</p>
+          <pre><code>return "hi, " + name;</code></pre>
+      <p>If the return is omitted, then <span class="b">undefined</span> is returned.</p>
+      <p>Nothing is executed after the <span class="b">return</span> statement. This is important to remember when planning the actions performed by a function.<p>
+      <p>In case the expression to be returned is long and doesn't fit in one line, parentheses should be used:</p>
+          <pre><code>return (
+"hi, " + name + surname;
+)
+</code></pre>
+<p>In the previous example, without parentheses a semicolon will be inserted right after return and <span class="b">undefined</span> will be returned.
+		</section>
+		<section id="arrays" class="pv5">
+			<h2>Arrays</h2>
+<h3>What is an array and how to create it</h3>
+<p>An Array is a collection of values, stored in between square brackets and separated by a comma. You can access each element of an Array by citing its index, remembering, though, that the indices in an Array start from 0.</p>
+<pre><code>const arrayOfAnimals = ['cat', 'mouse', 'dog']; // an array
+console.log(arrayOfAnimals[0]) // returns 'cat', the first element in the array</code></pre>
+<p>Although not very common, an Array can contain values with different types:</p>
+<pre><code>const arrayWithDifferentValues = ['cat', function meow() {return "meow"}, 2, false]; // an array</code></pre>
+<h3>How to update an array</h3>
+<p>To update an Array you can use the following methods: </p>
+<ul>
+<li>
+Array.push(value) will add an element to the end of the array and will return the new length of the array:
+<pre><code>arrayofAnimals.push('elephant'); // returns 4</code></pre>
+</li>
+<li>
+Array.unshift(value) will add an element to the start of the array and will return the new length of the array:
+<pre><code>arrayofAnimals.unshift('elephant'); // returns 4</code></pre>
+</li>
+<li>
+To remove the first element of an array, use Array.shift() with no value, to remove the last value - Array.pop(). Note that Array.pop() will return the removed value;
+<pre><code>arrayofAnimals.unshift('elephant'); // returns 4</code></pre>
+</li>
+<li>
+To change the specific value in an array use its index. Let's take the arrayOfAnimals and change 'cat' to 'puma':
+<pre><code>const arrayOfAnimals = ['cat', 'mouse', 'dog'];
+arrayOfAnimals[0] = 'puma';
+console.log(arrayOfAnimals[0]); // 'puma'</code></pre>
+</li>
+</ul>
+<h3>How to sort an array</h3>
+<p>To sort an Array you can use the Array.sort() method. By default it sorts by converting all values to strings and sorting them by UTF-16 codes. That means that it will sort alphabetically the lowercase strings, for instance, but if a capitalized string will be added, the alphabetical order will be destroyed.</p>
+<pre><code>arrayOfAnimals.sort(); // returns sorted array: ['cat', 'dog', 'mouse'];
+arrayOfAnimals.push('Leo');
+arrayOfAnimals.sort(); // returns ["Leo", "cat", "dog", "mouse"]
+[1,8,4,6,10,0].sort(); // returns [0, 1, 10, 4, 6, 8]. Note that 10 comes after 1 and before 4 - this is because the numbers are converted to strings.</code></pre>
+<p>To sort numbers and other things more accurately, introduce a compareFunction:</p>
+<pre><code>[1,8,4,6,10,0].sort(function compare(a, b) {
+    if (a < b) {
+      return -1;
+    }
+    if (a > b) {
+      return 1;
+    }
+    // a == b
+    return 0;
+}); // returns [0, 1, 4, 6, 8, 10]</code></pre>
+<h3>How to traverse an array</h3>
+<p>Traversing is going through each element of an array. One of the most common methods is a for loop. For that you introduce a block-scoped index variable, i, and use array length to compare the index with it and go through each index in the array untill the array ends (until the index is not equal to the array length).</p>
+<pre><code>for (let i = 0; i < arrayOfAnimals.length; i++) {
+  console.log(arrayOfAnimals[i]);
+}
+// "Leo"
+// "cat"
+// "dog"
+// "mouse"</code></pre>
+<p>Also several methods are available to loop through an Array and modify its elements, for example:</p>
+<pre><code>arrayOfAnimals.forEach(function(item) {
+  console.log(item);
+});
+// "Leo"
+// "cat"
+// "dog"
+// "mouse"</code></pre>
+		</section>
+		<section id="dom" class="pv5">
+			<h2>The Document Object Model</h2>
+			<h3>What is the DOM</h3>
+      <blockquote>The Document Object Model (DOM) is a programming interface for HTML and XML documents. It represents the page so that programs can change the document structure, style, and content. The DOM represents the document as nodes and objects.
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction">MDN web docs</a>
+      </blockquote>
+      <p>Nodes and objects allow to manipulate the web page content via script.</p>
+      <h3>DOM objects </h3>
+      <p>Mostly the following DOM objects are used:</p>
+      <ul>
+        <li>
+          document - the HTML page, containing all the nodes within the body, also an entry point to the DOM tree;
+        </li>
+        <li>
+          window - a window containing DOM document, generally one window per opened tab, but one more for each run iframe. It extends to a window global variable in scripts and allows to manipulate the window;
+        </li>
+        <li>
+          navigator - is a browser itself, it contains the information about browser or user agent, such as version, battery, connection, geolocation, language, etc.
+        </li>
+        <li>
+          location - an object containing the url of the currently opened document, has ability to get and change this url. Both window and document have a location property referencing this object;
+        </li>
+        <li>
+          history - browser session history with methods to change it or go back or forward in the browsing history. Is referenced by Window.history;
+        </li>
+        <li>
+          screen - is the propery of window object (Window.screen), contains all information about the screen the window is opened in.
+        </li>
+      </ul>
+      <h3>DOM methods</h3>
+      <p>Some of the most popular DOM methods, the ones at the beginning of manipulating DOM with JavaScript, are those that allow to get and set values of the HTML document. To get a value of an HTML element, you can target it (or a collection of similar to it elements) by id, by class and by tag.</p>
+      <pre><code>document.getElementById("Fyodor_bio"); // returns value of the first element with id "Fyodor_bio" found on the page
+document.getElementsByTagName("a"); // returns a collection of DOM elements with a tag "a" - links on the page
+document.getElementsByClassName("red"); // returns a collection of elements with a class "red" applied to them</code></pre>
+<p>To set a value of a DOM element, you first get it by id, tag or class and then chain other methods to either get more specific properties like style or inner HTML. To set those value you assign the resulting expression to a desired value:
+<pre><code>document.getElementById("pMyTest").style.color; // when left like that this expression will return the color of the element with "Fyodor_bio" id
+document.getElementsByClassName("red")[0].style.color = "blue"; // this code will first get the collection of the elements with class "red", then get the first one and then assign a new color to the element</code></pre>
+      <h3>DOM properties</h3>
+      <p>DOM operates by Elements. Each DOM node is an Element with a common list of properties that you can manipulate with scripting. Some of them we already encounetered, such as style or innerHTML. Some other popular ones include:</p>
+      <ul>
+        <li>
+        classList - returns a list of class names of a given element;
+        </li>
+        <li>
+        innerText - the inner text of an element
+        </li>
+        <li>
+        offsetHeight - height of an element
+        </li>
+        <li>
+        offsetTop - vertical coordinates of the element
+        </li>
+        <li>
+        title - the title attribute
+        </li>
+      </ul>
+      <h3>DOM methods</h3>
+      <ul>
+        <li>
+        addEventListener() - adds an event handler to an element;
+        </li>
+        <li>
+        innerText - the inner text of an element
+        </li>
+        <li>
+        getAttribute() - gets the specified attribute of an element
+        </li>
+        <li>
+         and many more, like getElementsByTagName, but applied to the child nodes of the targeted element.
+        </li>
+      </ul>
+
+		</section>
+	</main>
+	<footer class="flex flex-row justify-end pa5">
+		<span>&copy; 2019 Anastasiia Makarochkina MDIA 2294 Final Assignment</span>
+	</footer>
+</body>
+</html>
